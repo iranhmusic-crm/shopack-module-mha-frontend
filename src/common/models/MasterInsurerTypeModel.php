@@ -36,7 +36,7 @@ class MasterInsurerTypeModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->minstypStatus == enuInsurerStatus::REMOVED);
+    return ($this->minstypStatus == enuInsurerStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -44,15 +44,15 @@ class MasterInsurerTypeModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->minstypStatus != enuInsurerStatus::REMOVED);
+		return ($this->minstypStatus != enuInsurerStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->minstypStatus != enuInsurerStatus::REMOVED);
+		return ($this->minstypStatus != enuInsurerStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->minstypStatus == enuInsurerStatus::REMOVED);
+		return ($this->minstypStatus == enuInsurerStatus::Removed);
 	}
 
 }

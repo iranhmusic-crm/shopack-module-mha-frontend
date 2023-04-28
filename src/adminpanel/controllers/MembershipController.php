@@ -17,7 +17,7 @@ class MembershipController extends BaseCrudController
 
 	public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mshpStatus = enuMembershipStatus::ACTIVE;
+		$model->mshpStatus = enuMembershipStatus::Active;
   }
 
 }

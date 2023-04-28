@@ -16,7 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
   <div class='card border-default'>
 		<div class='card-header bg-default'>
 			<div class="float-end">
-        <?= MemberMembershipModel::canCreate() ? Html::createButton() : '' ?>
+        <?= MemberMembershipModel::canCreate()
+					? Html::createButton('تمدید عضویت', ['/mha/membership/add-to-basket'], [
+						// 'localdbs' => 'basketdata=basket',
+					])
+					: '' ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>

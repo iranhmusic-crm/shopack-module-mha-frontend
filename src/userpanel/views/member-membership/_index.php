@@ -75,7 +75,11 @@ use iranhmusic\shopack\mha\common\enums\enuMemberMembershipStatus;
       ],
       [
         'class' => \shopack\base\frontend\widgets\ActionColumn::class,
-        'header' => MemberModel::canCreate() ? Html::createButton() : Yii::t('app', 'Actions'),
+        'header' => MemberModel::canCreate()
+          ? Html::createButton('تمدید عضویت', ['/mha/membership/add-to-basket'], [
+            // 'localdbs' => 'basketdata=basket',
+          ])
+          : Yii::t('app', 'Actions'),
       ]
     ],
     'export' => false,

@@ -36,7 +36,7 @@ class SupplementaryInsurerModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->sinsStatus == enuInsurerStatus::REMOVED);
+    return ($this->sinsStatus == enuInsurerStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -44,15 +44,15 @@ class SupplementaryInsurerModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->sinsStatus != enuInsurerStatus::REMOVED);
+		return ($this->sinsStatus != enuInsurerStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->sinsStatus != enuInsurerStatus::REMOVED);
+		return ($this->sinsStatus != enuInsurerStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->sinsStatus == enuInsurerStatus::REMOVED);
+		return ($this->sinsStatus == enuInsurerStatus::Removed);
 	}
 
 }

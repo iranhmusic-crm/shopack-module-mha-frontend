@@ -38,7 +38,7 @@ class DocumentModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->docStatus == enuDocumentStatus::REMOVED);
+    return ($this->docStatus == enuDocumentStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -46,15 +46,15 @@ class DocumentModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->docType != enuDocumentStatus::REMOVED);
+		return ($this->docType != enuDocumentStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->docType != enuDocumentStatus::REMOVED);
+		return ($this->docType != enuDocumentStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->docType == enuDocumentStatus::REMOVED);
+		return ($this->docType == enuDocumentStatus::Removed);
 	}
 
 }

@@ -19,12 +19,17 @@
         "bizley/jwt": "^3.0",
         "guzzlehttp/guzzle": "^7.5",
         "creocoder/yii2-nested-sets": ">=0.9",
+        "shopack/yii2-base-common": "@dev",
+        "shopack/yii2-base-frontend": "@dev",
+        "shopack/yii2-module-aaa-common": "@dev",
+        "shopack/yii2-module-aaa-frontend": "@dev",
         "kartik-v/yii2-grid": "dev-master",
         "kartik-v/yii2-bootstrap5-dropdown": "@dev",
         "kartik-v/yii2-detail-view": "dev-master",
         "kartik-v/yii2-tabs-x": "@dev",
         "kartik-v/yii2-tree-manager": "@dev",
-        "kartik-v/yii2-widgets": "@dev"
+        "kartik-v/yii2-widgets": "@dev",
+        "kartik-v/yii2-popover-x": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.34",

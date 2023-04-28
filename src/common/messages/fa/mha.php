@@ -27,7 +27,7 @@ return [
 	'Music Experience Start At' => 'شروع فعالیت در این رشته',
 	'Art History' => 'سوابق فعالیت هنری',
 	'Music Education History' => 'سوابق آموزشی',
-	'Wait For Approval' => 'منتظر تایید',
+	'Waiting For Approval' => 'منتظر تایید',
 
 	'Kanoons' => 'کانون‌ها',
 	'Kanoon' => 'کانون',

@@ -50,7 +50,7 @@ class SpecialtyModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->spcStatus == enuSpecialtyStatus::REMOVED);
+    return ($this->spcStatus == enuSpecialtyStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -58,15 +58,15 @@ class SpecialtyModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->spcStatus != enuSpecialtyStatus::REMOVED);
+		return ($this->spcStatus != enuSpecialtyStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->spcStatus != enuSpecialtyStatus::REMOVED);
+		return ($this->spcStatus != enuSpecialtyStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->spcStatus == enuSpecialtyStatus::REMOVED);
+		return ($this->spcStatus == enuSpecialtyStatus::Removed);
 	}
 
 }

@@ -3,7 +3,7 @@
  * @author Kambiz Zandi <kambizzandi@gmail.com>
  */
 
- namespace iranhmusic\shopack\mha\frontend\common\components;
+namespace iranhmusic\shopack\mha\frontend\common\components;
 
 use Yii;
 use yii\base\Component;

@@ -34,7 +34,9 @@ class MemberMembershipController extends BaseCrudController
   {
 		$model->mbrshpMemberID = Yii::$app->user->identity->usrID;
 		$model->mbrshpStatus = enuMemberMembershipStatus::WaitForPay;
-		$model->mbrshpStartDate = date('Y-m-d');
+		// $model->mbrshpStartDate = date('Y-m-d');
+
+		$model->prepareForCreation();
   }
 
 	public function getSearchParams()

@@ -6,15 +6,18 @@
 namespace iranhmusic\shopack\mha\frontend\common\models;
 
 use Yii;
+use yii\web\UnprocessableEntityHttpException;
 use shopack\base\frontend\rest\RestClientActiveRecord;
 use iranhmusic\shopack\mha\common\enums\enuMemberMembershipStatus;
+use shopack\base\common\helpers\HttpHelper;
+use shopack\base\common\shop\IAssetEntity;
 
-class MemberMembershipModel extends RestClientActiveRecord
+class MemberMembershipModel extends RestClientActiveRecord implements IAssetEntity
 {
 	use \iranhmusic\shopack\mha\common\models\MemberMembershipModelTrait;
 
 	public static $resourceName = 'mha/member-membership';
-  public static $primaryKey = 'mbrshpID';
+	public static $primaryKey = 'mbrshpID';
 
 	public function attributeLabels()
 	{
@@ -53,5 +56,55 @@ class MemberMembershipModel extends RestClientActiveRecord
 	public static function canCreate() {
 		return true;
 	}
+
+	// public function prepareForCreation()
+	// {
+	// 	list ($resultStatus, $resultData) = HttpHelper::callApi('mha/member-membership/renewal-info',
+	// 		HttpHelper::METHOD_GET,
+	// 		// [
+	// 		// 	'memberID' => Yii::$app->user->identity->usrID,
+	// 		// ]
+	// 	);
+
+	// 	if ($resultStatus < 200 || $resultStatus >= 300)
+	// 		throw new \Exception(Yii::t('mha', $resultData['message'], $resultData));
+
+	// 	$this->mbrshpStartDate = $resultData['startDate'];
+	// 	$this->mbrshpEndDate = $resultData['endDate'];
+	// 	$this->years = $resultData['years'];
+	// 	$this->unitPrice = $resultData['unitPrice'];
+	// 	$this->totalPrice = $resultData['totalPrice'];
+
+	// 	return true; //[$resultStatus, $resultData['result']];
+	// }
+
+	public static function getRenewalInfo()
+	{
+		list ($resultStatus, $resultData) = HttpHelper::callApi('mha/member-membership/renewal-info',
+			HttpHelper::METHOD_GET,
+			// [
+			// 	'memberID' => Yii::$app->user->identity->usrID,
+			// ]
+		);
+
+		if ($resultStatus < 200 || $resultStatus >= 300)
+			throw new \Exception(Yii::t('mha', $resultData['message'], $resultData));
+
+		return [
+			$resultData['startDate'],
+			$resultData['endDate'],
+			$resultData['years'],
+			$resultData['unitPrice'],
+			$resultData['totalPrice'],
+			$resultData['saleableID'],
+		];
+	}
+
+	// public function insert($runValidation = true, $attributes = null)
+	// {
+	// 	//call add to basket
+
+  //   return parent::insert($runValidation, $attributes);
+  // }
 
 }

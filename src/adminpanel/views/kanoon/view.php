@@ -5,6 +5,7 @@
 
 /** @var yii\web\View $this */
 
+use shopack\base\frontend\widgets\PopoverX;
 use shopack\base\frontend\widgets\DetailView;
 use shopack\base\frontend\helpers\Html;
 use iranhmusic\shopack\mha\common\enums\enuKanoonStatus;
@@ -24,6 +25,34 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->knnID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->knnID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->knnID]) : '' ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+
+          PopoverX::end();
+        ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+
+          PopoverX::end();
+        ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>
@@ -91,17 +120,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'knnCreatedAt:jalaliWithTime',
                 [
                   'attribute' => 'knnCreatedBy_User',
-                  'value' => $model->createdByUser->actorName() ?? '-',
+                  'value' => $model->createdByUser->actorName ?? '-',
                 ],
                 'knnUpdatedAt:jalaliWithTime',
                 [
                   'attribute' => 'knnUpdatedBy_User',
-                  'value' => $model->updatedByUser->actorName() ?? '-',
+                  'value' => $model->updatedByUser->actorName ?? '-',
                 ],
                 'knnRemovedAt:jalaliWithTime',
                 [
                   'attribute' => 'knnRemovedBy_User',
-                  'value' => $model->removedByUser->actorName() ?? '-',
+                  'value' => $model->removedByUser->actorName ?? '-',
                 ],
               ],
             ]);

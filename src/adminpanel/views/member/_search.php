@@ -14,7 +14,7 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberSearchModel;
 				'data-pjax' => 1,
 			],
 			'formConfig' => [
-				'labelSpan' => 12, //\kartik\form\ActiveField::NOT_SET,
+				'labelSpan' => 12, //\kartik\form\ActiveField::NotSet,
 			],
 			'type' => ActiveForm::TYPE_VERTICAL,
 			'template' =>"{beginLabel}{labelTitle}:{endLabel}\n<br>{beginWrapper}\n{input}\n{error}\n{hint}\n{endWrapper}",

@@ -5,6 +5,7 @@
 
 /** @var yii\web\View $this */
 
+use shopack\base\frontend\widgets\PopoverX;
 use shopack\base\common\helpers\Url;
 use shopack\base\common\helpers\ArrayHelper;
 use shopack\base\frontend\widgets\tabs\Tabs;
@@ -41,6 +42,41 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->mbrUserID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->mbrUserID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->mbrUserID]) : '' ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+          echo DetailView::widget([
+            'model' => $model,
+            'enableEditMode' => false,
+            'attributes' => [
+              'mbrCreatedAt:jalaliWithTime',
+              [
+                'attribute' => 'mbrCreatedBy_User',
+                'value' => $model->createdByUser->actorName ?? '-',
+              ],
+              'mbrUpdatedAt:jalaliWithTime',
+              [
+                'attribute' => 'mbrUpdatedBy_User',
+                'value' => $model->updatedByUser->actorName ?? '-',
+              ],
+              'mbrRemovedAt:jalaliWithTime',
+              [
+                'attribute' => 'mbrRemovedBy_User',
+                'value' => $model->removedByUser->actorName ?? '-',
+              ],
+            ],
+          ]);
+
+          PopoverX::end();
+        ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>
@@ -129,27 +165,6 @@ $this->params['breadcrumbs'][] = $this->title;
           </div>
           <div class='col-4'>
           <?php
-              echo DetailView::widget([
-                'model' => $model,
-                'enableEditMode' => false,
-                'attributes' => [
-                  'mbrCreatedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'mbrCreatedBy_User',
-                    'value' => $model->createdByUser->actorName() ?? '-',
-                  ],
-                  'mbrUpdatedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'mbrUpdatedBy_User',
-                    'value' => $model->updatedByUser->actorName() ?? '-',
-                  ],
-                  'mbrRemovedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'mbrRemovedBy_User',
-                    'value' => $model->removedByUser->actorName() ?? '-',
-                  ],
-                ],
-              ]);
             ?>
           </div>
         </div>

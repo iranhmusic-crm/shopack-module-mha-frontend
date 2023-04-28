@@ -43,7 +43,7 @@ class KanoonModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->knnStatus == enuKanoonStatus::REMOVED);
+    return ($this->knnStatus == enuKanoonStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -51,15 +51,15 @@ class KanoonModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->knnStatus != enuKanoonStatus::REMOVED);
+		return ($this->knnStatus != enuKanoonStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->knnStatus != enuKanoonStatus::REMOVED);
+		return ($this->knnStatus != enuKanoonStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->knnStatus == enuKanoonStatus::REMOVED);
+		return ($this->knnStatus == enuKanoonStatus::Removed);
 	}
 
 }

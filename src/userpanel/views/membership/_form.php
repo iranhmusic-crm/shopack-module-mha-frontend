@@ -16,31 +16,58 @@ use shopack\base\frontend\widgets\datetime\DatePicker;
 			'formConfig' => [
 				'labelSpan' => 4,
 			],
+			// 'modalDoneScript_OK' => "window.localStorage.setItem('basket', result.basketdata);"
 		]);
 
 		$builder = $form->getBuilder();
 
-		// $builder->fields([
-		// 	[
-		// 		'mbrshpMemberID',
-		// 		'type' => FormBuilder::FIELD_STATIC,
-		// 		'staticValue' => $model->member->user->displayName(),
-		// 	],
-		// ]);
-
 		$builder->fields([
 			[
-				'mbrshpStartDate',
-				'type' => FormBuilder::FIELD_WIDGET,
-				'widget' => DatePicker::class,
-				'fieldOptions' => [
-					'addon' => [
-						'append' => [
-							'content' => '<i class="far fa-calendar-alt"></i>',
-						],
-					],
-				],
+				'startDate',
+				'type' => FormBuilder::FIELD_STATIC,
+				'staticFormat' => 'jalali',
+				// 'staticValue' => Yii::$app->formatter->asJalali($model->mbrshpStartDate),
 			],
+			[
+				'endDate',
+				'type' => FormBuilder::FIELD_STATIC,
+				'staticFormat' => 'jalali',
+				// 'staticValue' => Yii::$app->formatter->asJalali($model->mbrshpEndDate),
+			],
+			[
+				'years',
+				'type' => FormBuilder::FIELD_STATIC,
+				'staticFormat' => 'decimal',
+			],
+			[
+				'unitPrice',
+				'type' => FormBuilder::FIELD_STATIC,
+				'staticFormat' => 'decimal',
+			],
+			[
+				'totalPrice',
+				'type' => FormBuilder::FIELD_STATIC,
+				'staticFormat' => 'decimal', //['currency', 'IRT'],
+			],
+			[
+				'saleableID',
+				'type' => FormBuilder::FIELD_STATIC,
+			],
+		]);
+
+		// $builder->fields([
+			// [
+			// 	'mbrshpStartDate',
+			// 	'type' => FormBuilder::FIELD_WIDGET,
+			// 	'widget' => DatePicker::class,
+			// 	'fieldOptions' => [
+			// 		'addon' => [
+			// 			'append' => [
+			// 				'content' => '<i class="far fa-calendar-alt"></i>',
+			// 			],
+			// 		],
+			// 	],
+			// ],
 			// 'mbrshpEndDate',
 			// [
 			// 	'mbrshpStatus',
@@ -54,13 +81,8 @@ use shopack\base\frontend\widgets\datetime\DatePicker;
 			// 		],
 			// 	],
 			// ],
-
-		]);
+		// ]);
 	?>
-
-	<?php $builder->beginField(); ?>
-		<div id='params-container' class='row offset-md-2'></div>
-	<?php $builder->endField(); ?>
 
 	<?php $builder->beginFooter(); ?>
 		<div class="card-footer">

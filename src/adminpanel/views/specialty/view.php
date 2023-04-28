@@ -5,6 +5,7 @@
 
 /** @var yii\web\View $this */
 
+use shopack\base\frontend\widgets\PopoverX;
 use shopack\base\common\helpers\Url;
 use shopack\base\frontend\widgets\DetailView;
 use shopack\base\frontend\helpers\Html;
@@ -25,6 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->spcID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->spcID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->spcID]) : '' ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+
+          PopoverX::end();
+        ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>
@@ -112,17 +127,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'spcCreatedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcCreatedBy_User',
-                  'value' => $model->createdByUser->actorName() ?? '-',
+                  'value' => $model->createdByUser->actorName ?? '-',
                 ],
                 'spcUpdatedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcUpdatedBy_User',
-                  'value' => $model->updatedByUser->actorName() ?? '-',
+                  'value' => $model->updatedByUser->actorName ?? '-',
                 ],
                 'spcRemovedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcRemovedBy_User',
-                  'value' => $model->removedByUser->actorName() ?? '-',
+                  'value' => $model->removedByUser->actorName ?? '-',
                 ],
               ],
             ]);

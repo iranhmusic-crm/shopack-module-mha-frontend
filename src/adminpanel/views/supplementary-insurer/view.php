@@ -5,6 +5,7 @@
 
 /** @var yii\web\View $this */
 
+use shopack\base\frontend\widgets\PopoverX;
 use shopack\base\common\helpers\Url;
 use shopack\base\frontend\widgets\DetailView;
 use shopack\base\frontend\helpers\Html;
@@ -25,55 +26,61 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->sinsID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->sinsID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->sinsID]) : '' ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+          echo DetailView::widget([
+            'model' => $model,
+            'enableEditMode' => false,
+            'attributes' => [
+              'sinsCreatedAt:jalaliWithTime',
+              [
+                'attribute' => 'sinsCreatedBy_User',
+                'value' => $model->createdByUser->actorName ?? '-',
+              ],
+              'sinsUpdatedAt:jalaliWithTime',
+              [
+                'attribute' => 'sinsUpdatedBy_User',
+                'value' => $model->updatedByUser->actorName ?? '-',
+              ],
+              'sinsRemovedAt:jalaliWithTime',
+              [
+                'attribute' => 'sinsRemovedBy_User',
+                'value' => $model->removedByUser->actorName ?? '-',
+              ],
+            ],
+          ]);
+
+          PopoverX::end();
+        ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>
 		</div>
 
     <div class='card-body'>
-      <div class='row'>
-        <div class='col-8'>
-          <?php
-            echo DetailView::widget([
-              'model' => $model,
-              'enableEditMode' => false,
-              'attributes' => [
-                'sinsID',
-                [
-                  'attribute' => 'sinsStatus',
-                  'value' => enuInsurerStatus::getLabel($model->sinsStatus),
-                ],
-                'sinsName',
-              ],
-            ]);
-          ?>
-        </div>
-        <div class='col-4'>
-          <?php
-            echo DetailView::widget([
-              'model' => $model,
-              'enableEditMode' => false,
-              'attributes' => [
-                'sinsCreatedAt:jalaliWithTime',
-                [
-                  'attribute' => 'sinsCreatedBy_User',
-                  'value' => $model->createdByUser->actorName() ?? '-',
-                ],
-                'sinsUpdatedAt:jalaliWithTime',
-                [
-                  'attribute' => 'sinsUpdatedBy_User',
-                  'value' => $model->updatedByUser->actorName() ?? '-',
-                ],
-                'sinsRemovedAt:jalaliWithTime',
-                [
-                  'attribute' => 'sinsRemovedBy_User',
-                  'value' => $model->removedByUser->actorName() ?? '-',
-                ],
-              ],
-            ]);
-          ?>
-        </div>
-      </div>
+      <?php
+        echo DetailView::widget([
+          'model' => $model,
+          'enableEditMode' => false,
+          'attributes' => [
+            'sinsID',
+            [
+              'attribute' => 'sinsStatus',
+              'value' => enuInsurerStatus::getLabel($model->sinsStatus),
+            ],
+            'sinsName',
+          ],
+        ]);
+      ?>
     </div>
   </div>
 </div>

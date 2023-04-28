@@ -135,7 +135,7 @@ class MemberModel extends RestClientActiveRecord
 
 	public function isSoftDeleted()
   {
-    return ($this->mbrStatus == enuMemberStatus::REMOVED);
+    return ($this->mbrStatus == enuMemberStatus::Removed);
   }
 
 	public static function canCreate() {
@@ -143,15 +143,15 @@ class MemberModel extends RestClientActiveRecord
 	}
 
 	public function canUpdate() {
-		return ($this->mbrStatus != enuMemberStatus::REMOVED);
+		return ($this->mbrStatus != enuMemberStatus::Removed);
 	}
 
 	public function canDelete() {
-		return ($this->mbrStatus != enuMemberStatus::REMOVED);
+		return ($this->mbrStatus != enuMemberStatus::Removed);
 	}
 
 	public function canUndelete() {
-		return ($this->mbrStatus == enuMemberStatus::REMOVED);
+		return ($this->mbrStatus == enuMemberStatus::Removed);
 	}
 
 	public function getUser() {

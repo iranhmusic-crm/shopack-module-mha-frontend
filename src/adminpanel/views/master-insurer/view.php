@@ -5,6 +5,7 @@
 
 /** @var yii\web\View $this */
 
+use shopack\base\frontend\widgets\PopoverX;
 use shopack\base\common\helpers\Url;
 use shopack\base\frontend\widgets\tabs\Tabs;
 use shopack\base\frontend\widgets\DetailView;
@@ -26,6 +27,41 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->minsID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->minsID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->minsID]) : '' ?>
+        <?php
+          PopoverX::begin([
+            // 'header' => 'Hello world',
+            'closeButton' => false,
+            'toggleButton' => [
+              'label' => Yii::t('aaa', 'Logs'),
+              'class' => 'btn btn-default',
+            ],
+            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
+          ]);
+
+          echo DetailView::widget([
+            'model' => $model,
+            'enableEditMode' => false,
+            'attributes' => [
+              'minsCreatedAt:jalaliWithTime',
+              [
+                'attribute' => 'minsCreatedBy_User',
+                'value' => $model->createdByUser->actorName ?? '-',
+              ],
+              'minsUpdatedAt:jalaliWithTime',
+              [
+                'attribute' => 'minsUpdatedBy_User',
+                'value' => $model->updatedByUser->actorName ?? '-',
+              ],
+              'minsRemovedAt:jalaliWithTime',
+              [
+                'attribute' => 'minsRemovedBy_User',
+                'value' => $model->removedByUser->actorName ?? '-',
+              ],
+            ],
+          ]);
+
+          PopoverX::end();
+        ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>
@@ -35,49 +71,20 @@ $this->params['breadcrumbs'][] = $this->title;
       <?php $tabs = Tabs::begin($this); ?>
 
       <?php $tabs->beginTabPage('مشخصات'); ?>
-        <div class='row'>
-          <div class='col-8'>
-            <?php
-              echo DetailView::widget([
-                'model' => $model,
-                'enableEditMode' => false,
-                'attributes' => [
-                  'minsID',
-                  [
-                    'attribute' => 'minsStatus',
-                    'value' => enuInsurerStatus::getLabel($model->minsStatus),
-                  ],
-                  'minsName',
-                ],
-              ]);
-            ?>
-          </div>
-          <div class='col-4'>
-            <?php
-              echo DetailView::widget([
-                'model' => $model,
-                'enableEditMode' => false,
-                'attributes' => [
-                  'minsCreatedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'minsCreatedBy_User',
-                    'value' => $model->createdByUser->actorName() ?? '-',
-                  ],
-                  'minsUpdatedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'minsUpdatedBy_User',
-                    'value' => $model->updatedByUser->actorName() ?? '-',
-                  ],
-                  'minsRemovedAt:jalaliWithTime',
-                  [
-                    'attribute' => 'minsRemovedBy_User',
-                    'value' => $model->removedByUser->actorName() ?? '-',
-                  ],
-                ],
-              ]);
-            ?>
-          </div>
-        </div>
+        <?php
+          echo DetailView::widget([
+            'model' => $model,
+            'enableEditMode' => false,
+            'attributes' => [
+              'minsID',
+              [
+                'attribute' => 'minsStatus',
+                'value' => enuInsurerStatus::getLabel($model->minsStatus),
+              ],
+              'minsName',
+            ],
+          ]);
+        ?>
 
       <?php $tabs->endTabPage(); ?>
 

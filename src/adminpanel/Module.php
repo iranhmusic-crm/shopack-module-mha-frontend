@@ -7,6 +7,7 @@ namespace iranhmusic\shopack\mha\frontend\adminpanel;
 
 use Yii;
 use yii\base\BootstrapInterface;
+use iranhmusic\shopack\mha\frontend\common\controllers\BasketController;
 
 class Module
 	extends \shopack\base\common\base\BaseModule
@@ -23,6 +24,8 @@ class Module
 	public function bootstrap($app)
 	{
 		if ($app instanceof \yii\web\Application) {
+			$this->controllerMap['basket'] = BasketController::class;
+
 			// $rules = [
 			// ];
 

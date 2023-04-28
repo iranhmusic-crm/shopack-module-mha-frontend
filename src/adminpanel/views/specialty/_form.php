@@ -47,8 +47,8 @@ modalDone = function(result) {
 		if (selectedNode) {
 			var rootNode = tree.findFirst(node => node.key == result.model.root);
 		} else {
-			//ERROR
-			console.log('create non-root ERROR: node not found');
+			//Error
+			console.log('create non-root Error: node not found');
 		}
 	}
 }

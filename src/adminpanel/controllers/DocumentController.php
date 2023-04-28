@@ -17,7 +17,7 @@ class DocumentController extends BaseCrudController
 
 	public function actionCreate_afterCreateModel(&$model)
   {
-		$model->docStatus = enuDocumentStatus::ACTIVE;
+		$model->docStatus = enuDocumentStatus::Active;
   }
 
 }
