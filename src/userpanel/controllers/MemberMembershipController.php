@@ -32,7 +32,7 @@ class MemberMembershipController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrshpMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrshpMemberID = Yii::$app->user->id;
 		$model->mbrshpStatus = enuMemberMembershipStatus::WaitForPay;
 		// $model->mbrshpStartDate = date('Y-m-d');
 
@@ -42,7 +42,7 @@ class MemberMembershipController extends BaseCrudController
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrshpMemberID' => Yii::$app->user->identity->usrID,
+			'mbrshpMemberID' => Yii::$app->user->id,
 		]);
   }
 

@@ -5,12 +5,14 @@
 
 /** @var yii\web\View $this */
 
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\frontend\helpers\Html;
 use shopack\base\common\helpers\StringHelper;
 use iranhmusic\shopack\mha\frontend\common\models\MemberModel;
 use iranhmusic\shopack\mha\common\enums\enuKanoonMembershipDegree;
 use iranhmusic\shopack\mha\common\enums\enuMemberKanoonStatus;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
+use iranhmusic\shopack\mha\frontend\common\models\BasicDefinitionModel;
 ?>
 
 <?php
@@ -49,6 +51,45 @@ use iranhmusic\shopack\mha\common\enums\enuMemberKanoonStatus;
         'attribute' => 'mbrknnKanoonID',
         'value' => function ($model, $key, $index, $widget) {
           return $model->kanoon->knnName;
+        },
+      ],
+      [
+        'attribute' => 'mbrknnDesc',
+        'value' => function ($model, $key, $index, $widget) {
+          if (empty($model->mbrknnKanoonID)
+            || empty($model->mbrknnDesc)
+            || empty($model->kanoon->knnDescFieldType)
+          )
+            return null;
+
+          $desc = $model->mbrknnDesc['desc'];
+          $fieldType = $model->kanoon->knnDescFieldType;
+          if ($fieldType == 'text')
+            return $desc;
+
+          if (str_starts_with($fieldType, 'mha:')) {
+            $bdf = substr($fieldType, 4);
+
+            $basicDefinitionModel = BasicDefinitionModel::find()
+              ->andWhere(['bdfID' => $desc])
+              // ->andWhere(['bdfType' => $bdf])
+              ->one()
+            ;
+
+            if ($basicDefinitionModel)
+              return enuBasicDefinitionType::getLabel($bdf) . ': ' . $basicDefinitionModel->bdfName;
+
+            return enuBasicDefinitionType::getLabel($bdf) . ': ' . $desc;
+          }
+
+          // $mhaList = enuBasicDefinitionType::getList();
+          // foreach($mhaList as $k => $v) {
+          //   if ($fieldType == 'mha:' . $k) {
+          //     return $v . ': ' . $desc;
+          //   }
+          // }
+
+          return $desc;
         },
       ],
       [
@@ -96,6 +137,5 @@ use iranhmusic\shopack\mha\common\enums\enuMemberKanoonStatus;
         'template' => '',
       ]
     ],
-    'export' => false,
   ]);
 ?>

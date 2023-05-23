@@ -49,10 +49,10 @@ use shopack\base\frontend\widgets\datetime\DatePicker;
 				'type' => FormBuilder::FIELD_STATIC,
 				'staticFormat' => 'decimal', //['currency', 'IRT'],
 			],
-			[
-				'saleableID',
-				'type' => FormBuilder::FIELD_STATIC,
-			],
+			// [
+			// 	'saleableID',
+			// 	'type' => FormBuilder::FIELD_STATIC,
+			// ],
 		]);
 
 		// $builder->fields([

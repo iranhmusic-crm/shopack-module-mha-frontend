@@ -32,7 +32,7 @@ class MemberDocumentController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrdocMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrdocMemberID = Yii::$app->user->id;
 		$model->mbrdocStatus = enuMemberDocumentStatus::WaitForApprove;
 		$model->mbrdocDocumentID = $_GET['docID'] ?? null;
   }
@@ -40,7 +40,7 @@ class MemberDocumentController extends BaseCrudController
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrdocMemberID' => Yii::$app->user->identity->usrID,
+			'mbrdocMemberID' => Yii::$app->user->id,
 		]);
   }
 

@@ -11,6 +11,7 @@ use shopack\base\common\helpers\Url;
 use shopack\base\common\helpers\StringHelper;
 use shopack\base\common\helpers\HttpHelper;
 use shopack\aaa\frontend\common\auth\BaseCrudController;
+use iranhmusic\shopack\mha\frontend\common\models\SpecialtyModel;
 use iranhmusic\shopack\mha\frontend\common\models\MemberSpecialtyModel;
 use iranhmusic\shopack\mha\frontend\common\models\MemberSpecialtySearchModel;
 
@@ -36,6 +37,12 @@ class MemberSpecialtyController extends BaseCrudController
   public function actionCreate_afterCreateModel(&$model)
   {
 		$model->mbrspcMemberID = $_GET['mbrspcMemberID'] ?? null;
+		$model->form_specialties = SpecialtyModel::getAllAsTree();
+  }
+
+	public function actionUpdate_afterCreateModel(&$model)
+  {
+		$model->form_specialties = SpecialtyModel::getAllAsTree();
   }
 
 }

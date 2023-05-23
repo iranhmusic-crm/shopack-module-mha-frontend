@@ -3,18 +3,19 @@
  * @author Kambiz Zandi <kambizzandi@gmail.com>
  */
 
-use shopack\base\common\helpers\Url;
 use yii\web\JsExpression;
+use borales\extensions\phoneInput\PhoneInput;
+use shopack\base\common\helpers\Url;
 use shopack\base\frontend\widgets\Select2;
 use shopack\base\frontend\widgets\DepDrop;
 use shopack\base\frontend\helpers\Html;
 use shopack\base\common\helpers\HttpHelper;
 use shopack\base\frontend\widgets\ActiveForm;
 use shopack\base\frontend\widgets\FormBuilder;
-use iranhmusic\shopack\mha\common\enums\enuMemberStatus;
+use shopack\base\frontend\widgets\datetime\DatePicker;
 use shopack\aaa\frontend\common\models\UserModel;
 use shopack\aaa\common\enums\enuGender;
-use borales\extensions\phoneInput\PhoneInput;
+use iranhmusic\shopack\mha\common\enums\enuMemberStatus;
 ?>
 
 <div class='member-form'>
@@ -190,7 +191,17 @@ JS;
 			// ['mbrRegisterCode'],
 			// ['mbrAcceptedAt'],
 			['mbrMusicExperiences'],
-			['mbrMusicExperienceStartAt'], //Y/M/D
+			['mbrMusicExperienceStartAt',  //Y/M/D
+				'type' => FormBuilder::FIELD_WIDGET,
+				'widget' => DatePicker::class,
+				'fieldOptions' => [
+					'addon' => [
+						'append' => [
+							'content' => '<i class="far fa-calendar-alt"></i>',
+						],
+					],
+				],
+			],
 			['mbrArtHistory'],
 			['mbrMusicEducationHistory'],
 		]);

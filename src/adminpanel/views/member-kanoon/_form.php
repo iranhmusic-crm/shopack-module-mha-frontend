@@ -20,10 +20,13 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberModel;
 	<?php
 		$form = ActiveForm::begin([
 			'model' => $model,
-			'formConfig' => [
-				'labelSpan' => 4,
-			],
+			// 'formConfig' => [
+			// 	'labelSpan' => 4,
+			// ],
 		]);
+
+    $formName = $model->formName();
+    $formNameLower = strtolower($formName);
 
 		$builder = $form->getBuilder();
 
@@ -111,6 +114,13 @@ JS;
 			]);
 		}
 
+		$loadingText = "<div class='text-center'>" . Yii::t('app', 'Loading...') . "</div>";
+
+		$getParamsSchemaUrl = Url::to(['kanoon/params-schema']) . '?id=';
+		$strKanoonParameters = '{}';
+		if ($model->mbrknnDesc !== null)
+			$strKanoonParameters = json_encode($model->mbrknnDesc);
+
 		$builder->fields([
 			[
 				'mbrknnKanoonID',
@@ -122,8 +132,23 @@ JS;
 						'placeholder' => Yii::t('app', '-- Choose --'),
 						'dir' => 'rtl',
 					],
+					'pluginEvents' => [
+						'select2:select' => "function(e) {
+							createDynamicParamsFormUI($(this).val(), \"{$loadingText}\", '{$getParamsSchemaUrl}', '{$formNameLower}', 'mbrknndesc', '{$formName}', 'mbrknnDesc', {$strKanoonParameters}, 'params-container', 3);
+							return true;
+						}",
+					],
 				],
 			],
+		]);
+	?>
+
+	<?php $builder->beginField(); ?>
+		<div id='params-container' class='row'></div>
+	<?php $builder->endField(); ?>
+
+	<?php
+		$builder->fields([
 			[
 				'mbrknnStatus',
 				'type' => FormBuilder::FIELD_WIDGET,
@@ -154,10 +179,6 @@ JS;
 
 		]);
 	?>
-
-	<?php $builder->beginField(); ?>
-		<div id='params-container' class='row offset-md-2'></div>
-	<?php $builder->endField(); ?>
 
 	<?php $builder->beginFooter(); ?>
 		<div class="card-footer">

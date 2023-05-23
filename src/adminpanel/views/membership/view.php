@@ -43,16 +43,19 @@ $this->params['breadcrumbs'][] = $this->title;
               'mshpCreatedAt:jalaliWithTime',
               [
                 'attribute' => 'mshpCreatedBy_User',
+                'format' => 'raw',
                 'value' => $model->createdByUser->actorName ?? '-',
               ],
               'mshpUpdatedAt:jalaliWithTime',
               [
                 'attribute' => 'mshpUpdatedBy_User',
+                'format' => 'raw',
                 'value' => $model->updatedByUser->actorName ?? '-',
               ],
               'mshpRemovedAt:jalaliWithTime',
               [
                 'attribute' => 'mshpRemovedBy_User',
+                'format' => 'raw',
                 'value' => $model->removedByUser->actorName ?? '-',
               ],
             ],

@@ -31,13 +31,13 @@ class MemberSpecialtyController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrspcMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrspcMemberID = Yii::$app->user->id;
   }
 
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrspcMemberID' => Yii::$app->user->identity->usrID,
+			'mbrspcMemberID' => Yii::$app->user->id,
 		]);
   }
 

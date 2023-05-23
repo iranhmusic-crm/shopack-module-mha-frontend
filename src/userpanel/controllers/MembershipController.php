@@ -26,10 +26,21 @@ class MembershipController extends BaseController implements ISaleableController
   {
 		$model = new MembershipBasketForm();
 
-		$formPosted = $model->load($_POST);
+		try {
+			$formPosted = $model->load($_POST);
+		} catch (\Throwable $th) {
+			if (Yii::$app->request->isAjax) {
+				return $this->renderAjaxModal('_error', [
+					'error' => Yii::t('mha', $th->getMessage()),
+				]);
+			}
+
+			throw $th;
+		}
+
 		$done = false;
 		if ($formPosted)
-			$done = MembershipModel::addToBasket($_POST['basketdata'] ?? null);
+			$done = $model->addToBasket($_POST['basketdata'] ?? null);
 
 		if (Yii::$app->request->isAjax) {
 			if ($done != false) {

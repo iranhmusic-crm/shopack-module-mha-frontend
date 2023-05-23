@@ -40,7 +40,7 @@ class MemberSupplementaryInsDocHistoryController extends BaseController
 	// public function getSearchParams()
   // {
   //   return array_replace_recursive(Yii::$app->request->queryParams, [
-	// 		'XXXXXXXXXX' => Yii::$app->user->identity->usrID,
+	// 		'XXXXXXXXXX' => Yii::$app->user->id,
 	// 	]);
   // }
 

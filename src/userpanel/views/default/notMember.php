@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $mustApprove_mobile = (strpos($mustApprove, ',mobile,') !== false);
       }
     ?>
-    <p>کاربر محترم: <?= Yii::$app->user->identity->usrEmail ?? (Yii::$app->user->identity->usrMobile ?? '') ?></p>
+    <p>کاربر محترم: <span class='d-inline-block dir-ltr'><?= Yii::$app->user->identity->usrEmail ?? (Yii::$app->user->identity->usrMobile ?? '') ?></span></p>
     <p>شما در خانه موسیقی عضو نیستید.</p>
     <?php
       if ($mustApprove_email || $mustApprove_mobile) {

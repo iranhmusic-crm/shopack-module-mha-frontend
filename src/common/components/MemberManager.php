@@ -16,7 +16,7 @@ class MemberManager extends Component
 	{
 		try {
 			$memberModel = MemberModel::findOne([
-				'mbrUserID' => Yii::$app->user->identity->usrID,
+				'mbrUserID' => Yii::$app->user->id,
 			]);
 
 			return $memberModel;

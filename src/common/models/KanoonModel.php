@@ -21,6 +21,8 @@ class KanoonModel extends RestClientActiveRecord
 		return [
 			'knnID'                    => Yii::t('app', 'ID'),
 			'knnName'                  => Yii::t('app', 'Name'),
+			'knnDescFieldType'         => Yii::t('mha', 'Description Field Type'),
+			'knnDescFieldLabel'        => Yii::t('mha', 'Description Field Label'),
 			'knnPresidentMemberID'     => Yii::t('mha', 'President'),
 			'knnVicePresidentMemberID' => Yii::t('mha', 'VicePresident'),
 			'knnOzv1MemberID'          => Yii::t('mha', 'Ozv1'),

@@ -127,16 +127,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'spcCreatedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcCreatedBy_User',
+                  'format' => 'raw',
                   'value' => $model->createdByUser->actorName ?? '-',
                 ],
                 'spcUpdatedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcUpdatedBy_User',
+                  'format' => 'raw',
                   'value' => $model->updatedByUser->actorName ?? '-',
                 ],
                 'spcRemovedAt:jalaliWithTime',
                 [
                   'attribute' => 'spcRemovedBy_User',
+                  'format' => 'raw',
                   'value' => $model->removedByUser->actorName ?? '-',
                 ],
               ],

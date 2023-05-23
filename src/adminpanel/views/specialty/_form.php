@@ -3,18 +3,19 @@
  * @author Kambiz Zandi <kambizzandi@gmail.com>
  */
 
-use shopack\base\common\helpers\Url;
 use yii\web\JsExpression;
+use borales\extensions\phoneInput\PhoneInput;
+use shopack\base\common\helpers\Url;
+use shopack\base\common\helpers\HttpHelper;
 use shopack\base\frontend\widgets\Select2;
 use shopack\base\frontend\widgets\DepDrop;
 use shopack\base\frontend\helpers\Html;
-use shopack\base\common\helpers\HttpHelper;
 use shopack\base\frontend\widgets\ActiveForm;
 use shopack\base\frontend\widgets\FormBuilder;
-use iranhmusic\shopack\mha\common\enums\enuSpecialtyStatus;
-use shopack\aaa\frontend\common\models\UserModel;
 use shopack\aaa\common\enums\enuGender;
-use borales\extensions\phoneInput\PhoneInput;
+use shopack\aaa\frontend\common\models\UserModel;
+use iranhmusic\shopack\mha\common\enums\enuSpecialtyStatus;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
 ?>
 
 <div class='specialty-form'>
@@ -75,8 +76,35 @@ JS;
 
 		$builder = $form->getBuilder();
 
+		$fildTypes = [
+			'text' => 'متن',
+		];
+		$mhaList = enuBasicDefinitionType::getList();
+		foreach($mhaList as $k => $v) {
+			$fildTypes['mha:' . $k] = $v;
+		}
+
 		$builder->fields([
 			['spcName'],
+			['spcDescFieldType',
+				'type' => FormBuilder::FIELD_WIDGET,
+				'widget' => Select2::class,
+				'widgetOptions' => [
+					'data' => $fildTypes,
+					'options' => [
+						'placeholder' => Yii::t('app', '-- Choose --'),
+						'dir' => 'rtl',
+					],
+					'pluginOptions' => [
+						'allowClear' => true,
+					],
+				],
+			],
+			['spcDescFieldLabel',
+				'visibleConditions' => [
+					'spcDescFieldType' => ['!=', ''],
+				],
+			],
 		]);
 	?>
 

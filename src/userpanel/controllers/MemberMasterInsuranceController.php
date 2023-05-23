@@ -31,13 +31,13 @@ class MemberMasterInsuranceController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrminshstMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrminshstMemberID = Yii::$app->user->id;
   }
 
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrminshstMemberID' => Yii::$app->user->identity->usrID,
+			'mbrminshstMemberID' => Yii::$app->user->id,
 		]);
   }
 

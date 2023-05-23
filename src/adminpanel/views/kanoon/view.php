@@ -10,6 +10,7 @@ use shopack\base\frontend\widgets\DetailView;
 use shopack\base\frontend\helpers\Html;
 use iranhmusic\shopack\mha\common\enums\enuKanoonStatus;
 use iranhmusic\shopack\mha\frontend\common\models\KanoonModel;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
 
 $this->title = Yii::t('mha', 'Kanoon') . ': ' . $model->knnID . ' - ' . $model->knnName;
 $this->params['breadcrumbs'][] = Yii::t('mha', 'Music House');
@@ -25,6 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $model->canUpdate()   ? Html::updateButton(null,   ['id' => $model->knnID]) : '' ?>
         <?= $model->canDelete()   ? Html::deleteButton(null,   ['id' => $model->knnID]) : '' ?>
         <?= $model->canUndelete() ? Html::undeleteButton(null, ['id' => $model->knnID]) : '' ?>
+        <?= Html::a(Yii::t('aaa', 'Send Message'), [
+          'send-message',
+          'id' => $model->knnID,
+          // 'ref' => Url::toRoute(['view', 'id' => $model->mbrUserID], true),
+        ], [
+          'class' => 'btn btn-sm btn-success',
+          'modal' => true,
+        ]); ?>
         <?php
           PopoverX::begin([
             // 'header' => 'Hello world',
@@ -36,20 +45,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
           ]);
 
-
-          PopoverX::end();
-        ?>
-        <?php
-          PopoverX::begin([
-            // 'header' => 'Hello world',
-            'closeButton' => false,
-            'toggleButton' => [
-              'label' => Yii::t('aaa', 'Logs'),
-              'class' => 'btn btn-default',
+          echo DetailView::widget([
+            'model' => $model,
+            'enableEditMode' => false,
+            'attributes' => [
+              'knnCreatedAt:jalaliWithTime',
+              [
+                'attribute' => 'knnCreatedBy_User',
+                'format' => 'raw',
+                'value' => $model->createdByUser->actorName ?? '-',
+              ],
+              'knnUpdatedAt:jalaliWithTime',
+              [
+                'attribute' => 'knnUpdatedBy_User',
+                'format' => 'raw',
+                'value' => $model->updatedByUser->actorName ?? '-',
+              ],
+              'knnRemovedAt:jalaliWithTime',
+              [
+                'attribute' => 'knnRemovedBy_User',
+                'format' => 'raw',
+                'value' => $model->removedByUser->actorName ?? '-',
+              ],
             ],
-            'placement' => PopoverX::ALIGN_AUTO_BOTTOM,
           ]);
-
 
           PopoverX::end();
         ?>
@@ -59,84 +78,77 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 
     <div class='card-body'>
-      <div class='row'>
-        <div class='col-8'>
-          <?php
-            echo DetailView::widget([
-              'model' => $model,
-              'enableEditMode' => false,
-              'attributes' => [
-                'knnID',
-                [
-                  'attribute' => 'knnStatus',
-                  'value' => enuKanoonStatus::getLabel($model->knnStatus),
-                ],
-                'knnName',
-                [
-                  'attribute' => 'knnPresidentMemberID',
-                  'value' => (isset($model->knnPresidentMemberID)
-                    ? $model->president->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnVicePresidentMemberID',
-                  'value' => (isset($model->knnVicePresidentMemberID)
-                    ? $model->vicePresident->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnOzv1MemberID',
-                  'value' => (isset($model->knnOzv1MemberID)
-                    ? $model->ozv1->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnOzv2MemberID',
-                  'value' => (isset($model->knnOzv2MemberID)
-                    ? $model->ozv2->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnOzv3MemberID',
-                  'value' => (isset($model->knnOzv3MemberID)
-                    ? $model->ozv3->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnWardenMemberID',
-                  'value' => (isset($model->knnWardenMemberID)
-                    ? $model->warden->displayName() : null),
-                ],
-                [
-                  'attribute' => 'knnTalkerMemberID',
-                  'value' => (isset($model->knnTalkerMemberID)
-                    ? $model->talker->displayName() : null),
-                ],
-              ],
-            ]);
-          ?>
-        </div>
-        <div class='col-4'>
-          <?php
-            echo DetailView::widget([
-              'model' => $model,
-              'enableEditMode' => false,
-              'attributes' => [
-                'knnCreatedAt:jalaliWithTime',
-                [
-                  'attribute' => 'knnCreatedBy_User',
-                  'value' => $model->createdByUser->actorName ?? '-',
-                ],
-                'knnUpdatedAt:jalaliWithTime',
-                [
-                  'attribute' => 'knnUpdatedBy_User',
-                  'value' => $model->updatedByUser->actorName ?? '-',
-                ],
-                'knnRemovedAt:jalaliWithTime',
-                [
-                  'attribute' => 'knnRemovedBy_User',
-                  'value' => $model->removedByUser->actorName ?? '-',
-                ],
-              ],
-            ]);
-          ?>
-        </div>
-      </div>
+      <?php
+        $fildTypes = [
+          'text' => 'متن',
+        ];
+        $mhaList = enuBasicDefinitionType::getList();
+        foreach($mhaList as $k => $v) {
+          $fildTypes['mha:' . $k] = $v;
+        }
+
+        echo DetailView::widget([
+          'model' => $model,
+          'enableEditMode' => false,
+          'attributes' => [
+            'knnID',
+            [
+              'attribute' => 'knnStatus',
+              'value' => enuKanoonStatus::getLabel($model->knnStatus),
+            ],
+            'knnName',
+            [
+              'attribute' => 'knnDescFieldType',
+              'value' => (empty($model->knnDescFieldType) ? null
+                : $fildTypes[$model->knnDescFieldType] ?? $model->knnDescFieldType
+              ),
+            ],
+            'knnDescFieldLabel',
+            [
+              'attribute' => 'knnPresidentMemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnPresidentMemberID)
+                ? $model->president->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnVicePresidentMemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnVicePresidentMemberID)
+                ? $model->vicePresident->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnOzv1MemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnOzv1MemberID)
+                ? $model->ozv1->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnOzv2MemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnOzv2MemberID)
+                ? $model->ozv2->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnOzv3MemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnOzv3MemberID)
+                ? $model->ozv3->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnWardenMemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnWardenMemberID)
+                ? $model->warden->displayName() : null),
+            ],
+            [
+              'attribute' => 'knnTalkerMemberID',
+              'format' => 'raw',
+              'value' => (isset($model->knnTalkerMemberID)
+                ? $model->talker->displayName() : null),
+            ],
+          ],
+        ]);
+      ?>
     </div>
   </div>
 </div>

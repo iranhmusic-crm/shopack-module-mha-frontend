@@ -6,10 +6,11 @@
 namespace iranhmusic\shopack\mha\frontend\common\models;
 
 use Yii;
-use shopack\base\frontend\rest\RestClientActiveRecord;
-use iranhmusic\shopack\mha\common\enums\enuMemberStatus;
-use shopack\aaa\frontend\common\models\UserModel;
+use shopack\base\common\helpers\Url;
 use shopack\base\common\validators\GroupRequiredValidator;
+use shopack\base\frontend\rest\RestClientActiveRecord;
+use shopack\aaa\frontend\common\models\UserModel;
+use iranhmusic\shopack\mha\common\enums\enuMemberStatus;
 
 class MemberModel extends RestClientActiveRecord
 {
@@ -222,6 +223,72 @@ class MemberModel extends RestClientActiveRecord
 			$result = $this->mbrRegisterCode . ': ';
 
 		return $result . '[' . $this->user->displayName('{fn} {ln} {em} {mob}') . ']';
+	}
+
+	public function getDefects()
+	{
+		$defects = [];
+
+		//-- email
+		if (empty($this->user->usrEmailApprovedAt)) {
+			$defects[] = [
+				'label' => Yii::t('aaa', 'Email'),
+				'desc' => Yii::t('app', 'Not approved'),
+				'url' => Url::to(['/aaa/profile/index', 'fragment' => 'login']),
+			];
+		}
+
+		//-- mobile
+		if (empty($this->user->usrMobileApprovedAt)) {
+			$defects[] = [
+				'label' => Yii::t('aaa', 'Mobile'),
+				'desc' => Yii::t('app', 'Not approved'),
+				'url' => Url::to(['/aaa/profile/index', 'fragment' => 'login']),
+			];
+		}
+
+		//-- image
+		if ($this->user->usrImageFileID == null) {
+			$defects[] = [
+				'label' => Yii::t('aaa', 'Image'),
+				'desc' => Yii::t('app', 'Not defined'),
+				// 'url' => Url::to(['/aaa/profile/update-image']),
+			];
+		}
+
+		//-- specialty
+		$memberSpecialtyCount = MemberSpecialtyModel::find()
+			->andWhere(['mbrspcMemberID' => $this->mbrUserID])->count();
+
+		if (empty($memberSpecialtyCount))
+			$defects[] = [
+				'label' => Yii::t('mha', 'Specialty'),
+				'desc' => Yii::t('app', 'Not defined'),
+				'url' => Url::to(['/mha/member-specialty/index']),
+			];
+
+		//-- doc
+		$doctypesSearchModel = new DocumentSearchModel();
+		$doctypesDataProvider = $doctypesSearchModel->getDocumentTypesForMember($this->mbrUserID);
+		$docModels = $doctypesDataProvider->getModels();
+		if (empty($docModels) == false) {
+			$docDefects = [];
+			foreach ($docModels as $docModel) {
+				if ($docModel->providedCount == 0) {
+					$docDefects[] = $docModel->docName;
+				}
+			}
+			if (empty($docDefects) == false) {
+				$defects[] = [
+					'label' => Yii::t('mha', 'Documents'),
+					'desc' => $docDefects,
+					'url' => Url::to(['/mha/member-document/index']),
+				];
+			}
+		}
+
+		//--
+		return $defects;
 	}
 
 }

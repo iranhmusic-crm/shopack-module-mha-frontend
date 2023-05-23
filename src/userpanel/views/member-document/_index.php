@@ -5,7 +5,7 @@
 
 /** @var yii\web\View $this */
 
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\common\helpers\StringHelper;
 use shopack\base\frontend\helpers\Html;
 use iranhmusic\shopack\mha\common\enums\enuMemberDocumentStatus;
@@ -78,7 +78,6 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberDocumentModel;
             'template' => '{delete}',
           ]
         ],
-        'export' => false,
       ]);
     ?>
   </div>
@@ -90,7 +89,7 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberDocumentModel;
       <div class='card-body'>
         <?php
           $doctypesSearchModel = new DocumentSearchModel();
-          $doctypesDataProvider = $doctypesSearchModel->getDocumentTypesForMember(Yii::$app->user->identity->usrID);
+          $doctypesDataProvider = $doctypesSearchModel->getDocumentTypesForMember(Yii::$app->user->id);
 
           echo GridView::widget([
             'id' => StringHelper::generateRandomId(),
@@ -103,8 +102,14 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberDocumentModel;
               'docName',
               [
                 'attribute' => 'providedCount',
+                'format' => 'raw',
                 'value' => function ($model, $key, $index, $widget) {
-                  return $model->providedCount ?? 0;
+                  $providedCount = $model->providedCount ?? 0;
+
+                  if ($providedCount == 0)
+                    return "<div class='badge bg-danger'>{$providedCount}</div>";
+
+                  return $providedCount;
                 },
               ],
               [
@@ -119,7 +124,6 @@ use iranhmusic\shopack\mha\frontend\common\models\MemberDocumentModel;
                 ],
               ],
             ],
-            'export' => false,
           ]);
         ?>
       </div>

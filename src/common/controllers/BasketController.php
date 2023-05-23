@@ -41,7 +41,7 @@ class BasketController extends BaseController
 	{
 	}
 
-	public function actionRemoveItem()
+	public function actionRemoveItem($key)
 	{
 	}
 

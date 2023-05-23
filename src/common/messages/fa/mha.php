@@ -41,6 +41,8 @@ return [
 	'Create Kanoon Member' => 'ایجاد عضو کانون',
 	'Update Kanoon Member' => 'ویرایش عضو کانون',
 
+	'Board of Directors' => 'اعضای هیات مدیره',
+
 	'President' => 'رییس',
 	'VicePresident' => 'نایب رییس',
 	'Ozv1' => 'عضو 1',
@@ -103,11 +105,20 @@ return [
 	'Create Supplementary Insurer' => 'ایجاد بیمه‌گر تکمیلی',
 	'Update Supplementary Insurer' => 'ویرایش بیمه‌گر تکمیلی',
 
+	'Basic Definitions' => 'تعاریف پایه',
+	'Basic Definition' => 'تعریف پایه',
+	'Basic Definition Info' => 'مشخصات تعریف پایه',
+	'Create Basic Definition' => 'ایجاد تعریف پایه',
+	'Update Basic Definition' => 'ویرایش تعریف پایه',
+
 	'Specialties' => 'تخصص‌ها',
 	'Specialty' => 'تخصص',
 	'Specialty Info' => 'مشخصات تخصص',
 	'Create Specialty' => 'ایجاد تخصص',
 	'Update Specialty' => 'ویرایش تخصص',
+
+	'Description Field Type' => 'نوع فیلد توضیحات',
+	'Description Field Label' => 'عنوان فیلد توضیحات',
 
 	'Memberships' => 'دوره‌های عضویت',
 	'Membership' => 'دوره‌ی عضویت',
@@ -115,17 +126,17 @@ return [
 	'Create Membership' => 'ایجاد دوره‌ی عضویت',
 	'Update Membership' => 'ویرایش دوره‌ی عضویت',
 
-	// 'Membership Definitions' => 'تعاریف دوره‌های عضویت',
-	// 'Membership Definition' => 'تعریف دوره‌ی عضویت',
-	// 'Membership Definition Info' => 'مشخصات تعریف دوره‌ی عضویت',
-	// 'Create Membership Definition' => 'ایجاد تعریف دوره‌ی عضویت',
-	// 'Update Membership Definition' => 'ویرایش تعریف دوره‌ی عضویت',
+	'Memberships Definitions' => 'تعاریف دوره‌های عضویت',
+	'Membership Definition' => 'تعریف دوره‌ی عضویت',
+	'Membership Definition Info' => 'مشخصات تعریف دوره‌ی عضویت',
+	'Create Membership Definition' => 'ایجاد تعریف دوره‌ی عضویت',
+	'Update Membership Definition' => 'ویرایش تعریف دوره‌ی عضویت',
 
-	// 'Member Memberships' => 'دوره‌های عضویت اعضا',
-	// 'Member Membership' => 'دوره‌ی عضویت عضو',
-	// 'Member Membership Info' => 'مشخصات دوره‌ی عضویت عضو',
-	// 'Create Member Membership' => 'ایجاد دوره‌ی عضویت عضو',
-	// 'Update Member Membership' => 'ویرایش دوره‌ی عضویت عضو',
+	'Members Memberships' => 'دوره‌های عضویت اعضا',
+	'Member Membership' => 'دوره‌ی عضویت عضو',
+	'Member Membership Info' => 'مشخصات دوره‌ی عضویت عضو',
+	'Create Member Membership' => 'ایجاد دوره‌ی عضویت عضو',
+	'Update Member Membership' => 'ویرایش دوره‌ی عضویت عضو',
 
 	'Yearly Price' => 'مبلغ سالیانه',
 
@@ -173,4 +184,6 @@ return [
 	'Signup Member' => 'درخواست عضویت',
 	'My Profile' => 'پروفایل عضویت من',
 	'My Music House' => 'خانه موسیقی من',
+
+	'There are more than 30 days of current membership left' => 'زودتر از 30 روز از پایان دوره عضویت فعلی، امکان تمدید وجود ندارد.',
 ];

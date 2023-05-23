@@ -32,14 +32,14 @@ class MemberSupplementaryInsDocController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrsinsdocMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrsinsdocMemberID = Yii::$app->user->id;
 		$model->mbrsinsdocStatus = enuInsurerDocStatus::WaitForSurvey;
   }
 
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrsinsdocMemberID' => Yii::$app->user->identity->usrID,
+			'mbrsinsdocMemberID' => Yii::$app->user->id,
 		]);
   }
 

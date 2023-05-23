@@ -60,16 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
               'mbrCreatedAt:jalaliWithTime',
               [
                 'attribute' => 'mbrCreatedBy_User',
+                'format' => 'raw',
                 'value' => $model->createdByUser->actorName ?? '-',
               ],
               'mbrUpdatedAt:jalaliWithTime',
               [
                 'attribute' => 'mbrUpdatedBy_User',
+                'format' => 'raw',
                 'value' => $model->updatedByUser->actorName ?? '-',
               ],
               'mbrRemovedAt:jalaliWithTime',
               [
                 'attribute' => 'mbrRemovedBy_User',
+                'format' => 'raw',
                 'value' => $model->removedByUser->actorName ?? '-',
               ],
             ],
@@ -78,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
           PopoverX::end();
         ?>
 			</div>
-      <div class='card-title'><?= Html::encode($this->title) ?></div>
+      <div class='card-title'><?= $this->title ?></div>
 			<div class="clearfix"></div>
 		</div>
 
@@ -86,87 +89,81 @@ $this->params['breadcrumbs'][] = $this->title;
   		<?php $tabs = Tabs::begin($this); ?>
 
       <?php $tabs->beginTabPage('مشخصات'); ?>
-        <div class='row'>
-          <div class='col-8'>
-            <?php
-              echo DetailView::widget([
-                'model' => $model,
-                'enableEditMode' => false,
-                'cols' => 2,
-                'isVertical' => false,
-                'attributes' => [
-                  [
-                    'attribute' => 'mbrUserID',
-                    'format' => 'raw',
-                    'value' => Html::a($model->user->displayName(), ['/aaa/user/view', 'id' => $model->mbrUserID], ['class' => ['btn', 'btn-sm', 'btn-outline-secondary']]),
-                  ],
-                  [
-                    'attribute' => 'usrStatus',
-                    'value' => enuUserStatus::getLabel($model->user->usrStatus),
-                  ],
-                  'mbrRegisterCode',
-                  [
-                    'attribute' => 'mbrStatus',
-                    'value' => enuMemberStatus::getLabel($model->mbrStatus),
-                  ],
-                  'mbrAcceptedAt:jalaliWithTime',
-                  [
-                    'group' => true,
-                    // 'cols' => 1,
-                    'label' => 'اطلاعات پایه',
-                  ],
-                  [
-                    'attribute' => 'usrEmail',
-                    'valueColOptions' => ['class' => ['dir-ltr', 'text-start']],
-                    'value' => $model->user->usrEmail,
-                  ],
-                  [
-                    'attribute' => 'usrEmailApprovedAt',
-                    'format' => 'jalaliWithTime',
-                    'value' => $model->user->usrEmailApprovedAt,
-                  ],
-                  [
-                    'attribute' => 'usrMobile',
-                    'valueColOptions' => ['class' => ['dir-ltr', 'text-start']],
-                    'value' => $model->user->usrMobile,
-                  ],
-                  [
-                    'attribute' => 'usrMobileApprovedAt',
-                    'format' => 'jalaliWithTime',
-                    'value' => $model->user->usrMobileApprovedAt,
-                  ],
-                  [
-                    'attribute' => 'usrSSID',
-                    'value' => $model->user->usrSSID,
-                  ],
-                  [
-                    'attribute' => 'usrGender',
-                    'value' => enuGender::getLabel($model->usrGender),
-                  ],
-                  [
-                    'attribute' => 'usrFirstName',
-                    'value' => $model->user->usrFirstName,
-                  ],
-                  [
-                    'attribute' => 'usrFirstName_en',
-                    'value' => $model->user->usrFirstName_en,
-                  ],
-                  [
-                    'attribute' => 'usrLastName',
-                    'value' => $model->user->usrLastName,
-                  ],
-                  [
-                    'attribute' => 'usrLastName_en',
-                    'value' => $model->user->usrLastName_en,
-                  ],
-                ],
-              ]);
-            ?>
-          </div>
-          <div class='col-4'>
+        <div>
           <?php
-            ?>
-          </div>
+            echo DetailView::widget([
+              'model' => $model,
+              'enableEditMode' => false,
+              'cols' => 2,
+              'isVertical' => false,
+              'attributes' => [
+                [
+                  'attribute' => 'mbrUserID',
+                  'format' => 'raw',
+                  'value' => Html::a($model->user->displayName(), ['/aaa/user/view', 'id' => $model->mbrUserID], ['class' => ['btn', 'btn-sm', 'btn-outline-secondary']]),
+                ],
+                [
+                  'attribute' => 'usrStatus',
+                  'value' => enuUserStatus::getLabel($model->user->usrStatus),
+                ],
+                'mbrRegisterCode',
+                [
+                  'attribute' => 'mbrStatus',
+                  'value' => enuMemberStatus::getLabel($model->mbrStatus),
+                ],
+                'mbrAcceptedAt:jalaliWithTime',
+                [
+                  'group' => true,
+                  // 'cols' => 1,
+                  'label' => 'اطلاعات پایه',
+                ],
+                [
+                  'attribute' => 'usrEmail',
+                  'valueColOptions' => ['class' => ['dir-ltr', 'text-start']],
+                  'value' => $model->user->usrEmail,
+                ],
+                [
+                  'attribute' => 'usrEmailApprovedAt',
+                  'format' => 'jalaliWithTime',
+                  'value' => $model->user->usrEmailApprovedAt,
+                ],
+                [
+                  'attribute' => 'usrMobile',
+                  'valueColOptions' => ['class' => ['dir-ltr', 'text-start']],
+                  'value' => $model->user->usrMobile,
+                ],
+                [
+                  'attribute' => 'usrMobileApprovedAt',
+                  'format' => 'jalaliWithTime',
+                  'value' => $model->user->usrMobileApprovedAt,
+                ],
+                [
+                  'attribute' => 'usrSSID',
+                  'value' => $model->user->usrSSID,
+                ],
+                [
+                  'attribute' => 'usrGender',
+                  'value' => enuGender::getLabel($model->usrGender),
+                ],
+                [
+                  'attribute' => 'usrFirstName',
+                  'value' => $model->user->usrFirstName,
+                ],
+                [
+                  'attribute' => 'usrFirstName_en',
+                  'value' => $model->user->usrFirstName_en,
+                ],
+                [
+                  'attribute' => 'usrLastName',
+                  'value' => $model->user->usrLastName,
+                ],
+                [
+                  'attribute' => 'usrLastName_en',
+                  'value' => $model->user->usrLastName_en,
+                ],
+              ],
+            ]);
+          ?>
         </div>
 
         <p>&nbsp;</p>
@@ -287,12 +284,54 @@ $this->params['breadcrumbs'][] = $this->title;
         'member-memberships'
       ); ?>
 
-      <?php $tabs->newAjaxTabPage(Yii::t('mha', 'Financials'), [
-          '/mha/member-financial/index',
-          'finUserID' => $model->mbrUserID,
-        ],
-        'financials'
-      ); ?>
+      <?php
+        $tabs->beginTabPage(Yii::t('aaa', 'Financial'), [
+          'wallets',
+          'wallet-transactions',
+          'orders',
+          'online-payments',
+        ]);
+
+        $tabs2 = Tabs::begin($this, [
+          'pluginOptions' => [
+            'id' => 'tabs_fin',
+            // 'position' => \kartik\tabs\TabsX::POS_LEFT,
+            // 'bordered' => true,
+          ],
+        ]);
+
+        $tabs2->newAjaxTabPage(Yii::t('aaa', 'Wallets'), [
+            '/aaa/wallet/index',
+            'walOwnerUserID' => $model->mbrUserID,
+          ],
+          'wallets'
+        );
+
+        $tabs2->newAjaxTabPage(Yii::t('aaa', 'Wallet Transactions'), [
+            '/aaa/wallet-transaction/index',
+            'walOwnerUserID' => $model->mbrUserID,
+          ],
+          'wallet-transactions'
+        );
+
+        $tabs2->newAjaxTabPage(Yii::t('aaa', 'Orders'), [
+            '/aaa/order/index',
+            'vchOwnerUserID' => $model->mbrUserID,
+          ],
+          'orders'
+        );
+
+        $tabs2->newAjaxTabPage(Yii::t('aaa', 'Online Payments'), [
+            '/aaa/online-payment/index',
+            'vchOwnerUserID' => $model->mbrUserID,
+          ],
+          'online-payments'
+        );
+
+        $tabs2->end();
+
+        $tabs->endTabPage();
+      ?>
 
       <?php $tabs->end(); ?>
     </div>

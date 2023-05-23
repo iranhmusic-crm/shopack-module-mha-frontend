@@ -31,13 +31,13 @@ class MemberSponsorshipController extends BaseCrudController
 
 	public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrspsMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrspsMemberID = Yii::$app->user->id;
   }
 
 	public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrspsMemberID' => Yii::$app->user->identity->usrID,
+			'mbrspsMemberID' => Yii::$app->user->id,
 		]);
   }
 

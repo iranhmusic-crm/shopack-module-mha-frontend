@@ -17,7 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
   <div class='card border-default'>
 		<div class='card-header bg-default'>
 			<div class="float-end">
-        <?= MemberSpecialtyModel::canCreate() ? Html::createButton() : '' ?>
+        <?= MemberSpecialtyModel::canCreate() ? Html::createButton(null, [
+					'create',
+					'mbrspcMemberID' => $mbrspcMemberID ?? $_GET['mbrspcMemberID'] ?? null,
+				]) : '' ?>
 			</div>
       <div class='card-title'><?= Html::encode($this->title) ?></div>
 			<div class="clearfix"></div>

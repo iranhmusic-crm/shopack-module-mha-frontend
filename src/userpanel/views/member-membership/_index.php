@@ -5,7 +5,7 @@
 
 /** @var yii\web\View $this */
 
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\frontend\helpers\Html;
 use shopack\base\common\helpers\StringHelper;
 use iranhmusic\shopack\mha\frontend\common\models\MemberModel;
@@ -43,20 +43,21 @@ use iranhmusic\shopack\mha\common\enums\enuMemberMembershipStatus;
       //     return Html::a($model->member->displayName(), ['/mha/member/view', 'id' => $model->mbrshpMemberID], ['class' => ['btn', 'btn-sm', 'btn-outline-secondary']]);
       //   },
       // ],
+      'mbrshpStartDate:jalali',
+			'mbrshpEndDate:jalali',
       [
         // 'class' => \iranhmusic\shopack\mha\frontend\common\widgets\grid\MembershipDataColumn::class,
         'attribute' => 'mbrshpMembershipID',
+        'label' => 'طرح فروش',
         'value' => function ($model, $key, $index, $widget) {
           return $model->membership->mshpTitle;
         },
       ],
-      'mbrshpStartDate:jalali',
-			'mbrshpEndDate:jalali',
-      [
-        'attribute' => 'mbrshpStatus',
-        'class' => \shopack\base\frontend\widgets\grid\EnumDataColumn::class,
-        'enumClass' => enuMemberMembershipStatus::class,
-      ],
+      // [
+      //   'attribute' => 'mbrshpStatus',
+      //   'class' => \shopack\base\frontend\widgets\grid\EnumDataColumn::class,
+      //   'enumClass' => enuMemberMembershipStatus::class,
+      // ],
       [
         'attribute' => 'rowDate',
         'noWrap' => true,
@@ -80,8 +81,8 @@ use iranhmusic\shopack\mha\common\enums\enuMemberMembershipStatus;
             // 'localdbs' => 'basketdata=basket',
           ])
           : Yii::t('app', 'Actions'),
+        'template' => false,
       ]
     ],
-    'export' => false,
   ]);
 ?>

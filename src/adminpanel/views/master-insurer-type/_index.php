@@ -5,7 +5,7 @@
 
 /** @var yii\web\View $this */
 
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\common\helpers\Url;
 use shopack\base\frontend\helpers\Html;
 use shopack\base\common\helpers\StringHelper;
@@ -28,14 +28,6 @@ use iranhmusic\shopack\mha\frontend\common\models\MasterInsurerTypeModel;
       [
         'class' => 'kartik\grid\SerialColumn',
       ],
-      // [
-      //   'attribute' => 'usrSearchKey',
-      //   'label' => Yii::t('aaa', 'User'),
-      //   'format' => 'raw',
-      //   'value' => function ($model, $key, $index, $widget) {
-      //     return Html::a(str_replace('\n', '<br>', $model->user->displayName()), ['/aaa/user/view', 'id' => $model->mbrspcMemberID]);
-      //   },
-      // ],
       'minstypID',
       [
         'attribute' => 'minstypMasterInsurerID',
@@ -65,6 +57,5 @@ use iranhmusic\shopack\mha\frontend\common\models\MasterInsurerTypeModel;
         ],
       ]
     ],
-    'export' => false,
   ]);
 ?>

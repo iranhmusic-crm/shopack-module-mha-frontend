@@ -7,15 +7,19 @@ namespace iranhmusic\shopack\mha\frontend\adminpanel\controllers;
 
 use Yii;
 use yii\web\Response;
-use shopack\base\common\helpers\Url;
 use yii\base\InvalidConfigException;
 use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
-use shopack\base\frontend\helpers\Html;
+use shopack\base\common\helpers\Url;
 use shopack\base\common\helpers\HttpHelper;
+use shopack\base\common\helpers\ArrayHelper;
+use shopack\base\frontend\helpers\Html;
 use shopack\aaa\frontend\common\auth\BaseController;
 use iranhmusic\shopack\mha\frontend\common\models\SpecialtyModel;
 use iranhmusic\shopack\mha\frontend\common\models\SpecialtySearchModel;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
+use iranhmusic\shopack\mha\frontend\common\models\BasicDefinitionModel;
+
 
 class SpecialtyController extends BaseController
 {
@@ -174,10 +178,19 @@ class SpecialtyController extends BaseController
       'parentid' => $id,
     ]);
 
+    //-----------------
     $list = [];
 
     if ($result[0] == 200) {
       foreach ($result[1]['data'] as $v) {
+        $spcDescFieldTypeName = 'ندارد';
+        if (empty($v['spcDescFieldType']) == false ) {
+          if (isset($fildTypes[$v['spcDescFieldType']]))
+            $spcDescFieldTypeName = $fildTypes[$v['spcDescFieldType']];
+          else
+            $spcDescFieldTypeName = $v['spcDescFieldType'];
+        }
+
         $left = $v['spcLeft'];
         $right = $v['spcRight'];
         $isLeaf = ($right == $left + 1);
@@ -191,6 +204,8 @@ class SpecialtyController extends BaseController
             'right' => $right,
             'level' => $v['spcLevel'],
           ],
+          'DescFieldType' => $v['spcDescFieldType'],
+          'DescFieldLabel' => $v['spcDescFieldLabel'],
           'folder' => !$isLeaf,
           'lazy' => !$isLeaf,
         ];
@@ -240,6 +255,53 @@ class SpecialtyController extends BaseController
     $out['items'] = $list;
 
     return $this->renderJson($out);
+  }
+
+  public function actionParamsSchema($id)
+  {
+		$model = $this->findModel($id);
+    if (empty($model->spcDescFieldType) == false) {
+      if ($model->spcDescFieldType == 'text') {
+        return $this->renderJson([
+          'count' => 1,
+          'list' => [
+            [
+              'id' => 'desc',
+              'label' => $model->spcDescFieldLabel ?? 'متن',
+              'mandatory' => 1,
+              'type' => 'string',
+            ],
+          ],
+        ]);
+      }
+
+      $mhaList = enuBasicDefinitionType::getList();
+      foreach($mhaList as $k => $v) {
+        if ($model->spcDescFieldType == 'mha:' . $k) {
+
+          $definitionModels = BasicDefinitionModel::find()
+            ->andWhere(['bdfType' => $k])
+            ->asArray()
+            ->all();
+
+          return $this->renderJson([
+            'count' => 1,
+            'list' => [
+              [
+                'id' => 'desc',
+                'label' => $model->spcDescFieldLabel ?? $v,
+                'mandatory' => 1,
+                'type' => 'combo',
+                'data' => ArrayHelper::map($definitionModels, 'bdfID', 'bdfName'),
+                // "default":"%"
+              ],
+            ],
+          ]);
+        }
+      }
+    }
+
+    return $this->renderJson(['count' => 0, 'list' => []]);
   }
 
 }

@@ -21,6 +21,7 @@ class MemberKanoonModel extends RestClientActiveRecord
 		return [
 			'mbrknnMemberID'         => Yii::t('mha', 'Member'),
 			'mbrknnKanoonID'         => Yii::t('mha', 'Kanoon'),
+			'mbrknnDesc'             => Yii::t('app', 'Description'),
 			'mbrknnMembershipDegree' => Yii::t('mha', 'Membership Degree'),
 			'mbrknnStatus'           => Yii::t('app', 'Status'),
 			'mbrknnCreatedAt'        => Yii::t('app', 'Created At'),

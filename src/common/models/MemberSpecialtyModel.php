@@ -7,15 +7,15 @@ namespace iranhmusic\shopack\mha\frontend\common\models;
 
 use Yii;
 use shopack\base\frontend\rest\RestClientActiveRecord;
-use iranhmusic\shopack\mha\frontend\common\models\MemberModel;
-use iranhmusic\shopack\mha\frontend\common\models\SpecialtyModel;
 
 class MemberSpecialtyModel extends RestClientActiveRecord
 {
 	use \iranhmusic\shopack\mha\common\models\MemberSpecialtyModelTrait;
 
 	public static $resourceName = 'mha/member-specialty';
-  public static $primaryKey = ['mbrspcMemberID', 'mbrspcSpecialtyID'];
+  public static $primaryKey = 'mbrspcID'; //['mbrspcMemberID', 'mbrspcSpecialtyID'];
+
+	public $form_specialties;
 
 	public function attributeLabels()
 	{
@@ -26,6 +26,9 @@ class MemberSpecialtyModel extends RestClientActiveRecord
 			'mbrspcCreatedAt'        => Yii::t('app', 'Created At'),
 			'mbrspcCreatedBy'        => Yii::t('app', 'Created By'),
 			'mbrspcCreatedBy_User'   => Yii::t('app', 'Created By'),
+			'mbrspcUpdatedAt'        => Yii::t('app', 'Updated At'),
+			'mbrspcUpdatedBy'        => Yii::t('app', 'Updated By'),
+			'mbrspcUpdatedBy_User'   => Yii::t('app', 'Updated By'),
 		];
 	}
 
@@ -48,14 +51,6 @@ class MemberSpecialtyModel extends RestClientActiveRecord
 
 	public function canUndelete() {
 		return false;
-	}
-
-	public function getMember() {
-		return $this->hasOne(MemberModel::class, ['mbrUserID' => 'mbrspcMemberID']);
-	}
-
-	public function getSpecialty() {
-		return $this->hasOne(SpecialtyModel::class, ['spcID' => 'mbrspcSpecialtyID']);
 	}
 
 	public function load($data, $formName = null) {

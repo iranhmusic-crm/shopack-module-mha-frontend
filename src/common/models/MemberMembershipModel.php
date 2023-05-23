@@ -62,12 +62,12 @@ class MemberMembershipModel extends RestClientActiveRecord implements IAssetEnti
 	// 	list ($resultStatus, $resultData) = HttpHelper::callApi('mha/member-membership/renewal-info',
 	// 		HttpHelper::METHOD_GET,
 	// 		// [
-	// 		// 	'memberID' => Yii::$app->user->identity->usrID,
+	// 		// 	'memberID' => Yii::$app->user->id,
 	// 		// ]
 	// 	);
 
 	// 	if ($resultStatus < 200 || $resultStatus >= 300)
-	// 		throw new \Exception(Yii::t('mha', $resultData['message'], $resultData));
+	// 		throw new \yii\web\HttpException($resultStatus, Yii::t('mha', $resultData['message'], $resultData));
 
 	// 	$this->mbrshpStartDate = $resultData['startDate'];
 	// 	$this->mbrshpEndDate = $resultData['endDate'];
@@ -83,12 +83,12 @@ class MemberMembershipModel extends RestClientActiveRecord implements IAssetEnti
 		list ($resultStatus, $resultData) = HttpHelper::callApi('mha/member-membership/renewal-info',
 			HttpHelper::METHOD_GET,
 			// [
-			// 	'memberID' => Yii::$app->user->identity->usrID,
+			// 	'memberID' => Yii::$app->user->id,
 			// ]
 		);
 
 		if ($resultStatus < 200 || $resultStatus >= 300)
-			throw new \Exception(Yii::t('mha', $resultData['message'], $resultData));
+			throw new \yii\web\HttpException($resultStatus, Yii::t('mha', $resultData['message'], $resultData));
 
 		return [
 			$resultData['startDate'],

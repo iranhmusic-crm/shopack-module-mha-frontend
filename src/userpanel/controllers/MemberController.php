@@ -10,6 +10,7 @@ use yii\web\UnprocessableEntityHttpException;
 use shopack\aaa\frontend\common\auth\BaseController;
 use shopack\base\frontend\helpers\Html;
 use iranhmusic\shopack\mha\frontend\common\models\MemberModel;
+use iranhmusic\shopack\mha\frontend\userpanel\models\MemberSignupForm;
 
 class MemberController extends BaseController
 {
@@ -32,8 +33,8 @@ class MemberController extends BaseController
 			throw new UnprocessableEntityHttpException(Yii::t('aaa', 'Email and/or Mobile not approved.'));
 
 		//---
-		$model = new MemberModel;
-		$model->mbrUserID = Yii::$app->user->identity->usrID;
+		$model = new MemberSignupForm;
+		$model->mbrUserID = Yii::$app->user->id;
 
 		$formPosted = $model->load(Yii::$app->request->post());
 		$done = false;
@@ -69,6 +70,47 @@ class MemberController extends BaseController
 
     return $this->render('signup', [
       'model' => $model,
+    ]);
+  }
+
+  public function actionUpdate()
+  {
+		$model = MemberModel::findOne(Yii::$app->user->id);
+
+		$formPosted = $model->load(Yii::$app->request->post());
+		$done = false;
+		if ($formPosted)
+			$done = $model->save();
+
+    if (Yii::$app->request->isAjax) {
+      if ($done) {
+        return $this->renderJson([
+          'message' => Yii::t('app', 'Success'),
+          // 'id' => $id,
+          // 'redirect' => $this->doneLink ? call_user_func($this->doneLink, $model) : null,
+          // 'modalDoneFragment' => $this->modalDoneFragment,
+        ]);
+      }
+
+      if ($formPosted) {
+        return $this->renderJson([
+          'status' => 'Error',
+          'message' => Yii::t('app', 'Error'),
+          // 'id' => $id,
+          'error' => Html::errorSummary($model),
+        ]);
+      }
+
+      return $this->renderAjaxModal('_form', [
+        'model' => $model,
+      ]);
+    }
+
+    if ($done)
+      return $this->redirect('/');
+
+    return $this->render('update', [
+      'model' => $model
     ]);
   }
 

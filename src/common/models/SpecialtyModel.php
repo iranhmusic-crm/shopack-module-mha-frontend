@@ -35,6 +35,8 @@ class SpecialtyModel extends RestClientActiveRecord
 			'spcLevel'           => Yii::t('app', 'Level'),
 			'spcName'            => Yii::t('app', 'Name'),
 			'spcDesc'            => Yii::t('app', 'Desc'),
+			'spcDescFieldType'   => Yii::t('mha', 'Description Field Type'),
+			'spcDescFieldLabel'  => Yii::t('mha', 'Description Field Label'),
 			'spcStatus'          => Yii::t('app', 'Status'),
 			'spcCreatedAt'       => Yii::t('app', 'Created At'),
 			'spcCreatedBy'       => Yii::t('app', 'Created By'),
@@ -67,6 +69,25 @@ class SpecialtyModel extends RestClientActiveRecord
 
 	public function canUndelete() {
 		return ($this->spcStatus == enuSpecialtyStatus::Removed);
+	}
+
+	public static function getAllAsTree()
+	{
+		$models = self::find()
+			->addUrlParameter('q', '***')
+			// ->asArray()
+			->all();
+
+		$result = [];
+
+		foreach ($models as $model) {
+			$result[] = [
+				'id' => $model->spcID,
+				'name' => $model->fullName,
+			];
+		}
+
+		return $result;
 	}
 
 }

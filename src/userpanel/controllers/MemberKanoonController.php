@@ -32,14 +32,14 @@ class MemberKanoonController extends BaseCrudController
 
   public function actionCreate_afterCreateModel(&$model)
   {
-		$model->mbrknnMemberID = Yii::$app->user->identity->usrID;
+		$model->mbrknnMemberID = Yii::$app->user->id;
 		$model->mbrknnStatus = enuMemberKanoonStatus::WaitForSend;
   }
 
   public function getSearchParams()
   {
     return array_replace_recursive(Yii::$app->request->queryParams, [
-			'mbrknnMemberID' => Yii::$app->user->identity->usrID,
+			'mbrknnMemberID' => Yii::$app->user->id,
 		]);
   }
 

@@ -6,7 +6,7 @@
 /** @var yii\web\View $this */
 
 use shopack\base\common\helpers\Url;
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\frontend\helpers\Html;
 use shopack\base\common\helpers\StringHelper;
 use iranhmusic\shopack\mha\common\enums\enuMemberStatus;
@@ -151,7 +151,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
           ]
         ],
-        'export' => false,
       ]);
       ?>
     </div>

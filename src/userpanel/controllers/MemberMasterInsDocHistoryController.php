@@ -33,14 +33,14 @@ class MemberMasterInsDocHistoryController extends BaseController
 
   // public function actionCreate_afterCreateModel(&$model)
   // {
-	// 	$model->mbrminsdochstMasterInsDocID = Yii::$app->user->identity->usrID;
+	// 	$model->mbrminsdochstMasterInsDocID = Yii::$app->user->id;
 	// 	$model->mbrminsdochstAction = enuInsurerDocStatus::WaitForSurvey;
   // }
 
 	// public function getSearchParams()
   // {
   //   return array_replace_recursive(Yii::$app->request->queryParams, [
-	// 		'mbrminsdochstMasterInsDocID' => Yii::$app->user->identity->usrID,
+	// 		'mbrminsdochstMasterInsDocID' => Yii::$app->user->id,
 	// 	]);
   // }
 

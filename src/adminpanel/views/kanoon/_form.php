@@ -12,6 +12,7 @@ use shopack\base\common\helpers\HttpHelper;
 use shopack\base\frontend\widgets\ActiveForm;
 use shopack\base\frontend\widgets\FormBuilder;
 use iranhmusic\shopack\mha\common\enums\enuKanoonStatus;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
 ?>
 
 <div class='kanoon-form'>
@@ -24,6 +25,45 @@ use iranhmusic\shopack\mha\common\enums\enuKanoonStatus;
 		]);
 
 		$builder = $form->getBuilder();
+
+		$fildTypes = [
+			'text' => 'متن',
+		];
+		$mhaList = enuBasicDefinitionType::getList();
+		foreach($mhaList as $k => $v) {
+			$fildTypes['mha:' . $k] = $v;
+		}
+
+		$builder->fields([
+			['knnStatus',
+				'type' => FormBuilder::FIELD_RADIOLIST,
+				'data' => enuKanoonStatus::listData('form'),
+				'widgetOptions' => [
+					'inline' => true,
+				],
+			],
+			['knnName'],
+			['knnDescFieldType',
+				'type' => FormBuilder::FIELD_WIDGET,
+				'widget' => Select2::class,
+				'widgetOptions' => [
+					'data' => $fildTypes,
+					'options' => [
+						'placeholder' => Yii::t('app', '-- Choose --'),
+						'dir' => 'rtl',
+					],
+					'pluginOptions' => [
+						'allowClear' => true,
+					],
+				],
+			],
+			['knnDescFieldLabel',
+				'visibleConditions' => [
+					'knnDescFieldType' => ['!=', ''],
+				],
+			],
+			['@static' => '<hr>'],
+		]);
 
 		$formatJs =<<<JS
 var formatMember = function(item) {
@@ -59,17 +99,7 @@ function(data, params) {
 JS;
 
 		$builder->fields([
-			['knnStatus',
-				'type' => FormBuilder::FIELD_RADIOLIST,
-				'data' => enuKanoonStatus::listData('form'),
-				'widgetOptions' => [
-					'inline' => true,
-				],
-			],
-			[
-				'knnName',
-			],
-			[
+				[
 				'knnPresidentMemberID',
 				'type' => FormBuilder::FIELD_WIDGET,
 				'widget' => Select2::class,

@@ -6,10 +6,11 @@
 /** @var yii\web\View $this */
 
 use shopack\base\common\helpers\Url;
-use kartik\grid\GridView;
+use shopack\base\frontend\widgets\grid\GridView;
 use shopack\base\frontend\helpers\Html;
 use iranhmusic\shopack\mha\common\enums\enuSpecialtyStatus;
 use iranhmusic\shopack\mha\frontend\common\models\SpecialtyModel;
+use iranhmusic\shopack\mha\common\enums\enuBasicDefinitionType;
 
 $this->title = Yii::t('mha', 'Specialties');
 $this->params['breadcrumbs'][] = Yii::t('mha', 'Music House');
@@ -29,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
               <?php
                 $createTitle = Yii::t('app', 'Create');
                 $createUrl = Url::to(['create']);
+
+                $updateTitle = Yii::t('app', 'Update');
+                $updateUrl = Url::to(['update']);
+
                 $deleteUrl = Url::to(['delete']);
 
                 $treeid = 'fancytree-maintree';
@@ -90,6 +95,20 @@ function createItem() {
 
   doSowModal('{$createTitle}', '{$createUrl}?' + 'parentid=' + node.key);
 }
+
+function updateItem() {
+  var tree = $.ui.fancytree.getTree('#{$treeid}');
+  if (!tree)
+    return null;
+
+  var node = tree.getActiveNode();
+  if (!node) {
+    krajeeDialog.alert('برای ویرایش یک آیتم، ابتدا باید آن را انتخاب کنید');
+    return;
+  }
+
+  doSowModal('{$updateTitle}', '{$updateUrl}?' + 'id=' + node.key);
+}
 JS;
                 $this->registerJs($js, \yii\web\View::POS_END);
 
@@ -139,6 +158,15 @@ JS;
                   } catch(\Throwable $exp) { }
                 }
 
+                $fildTypes = [
+                  'text' => 'متن',
+                ];
+                $mhaList = enuBasicDefinitionType::getList();
+                foreach($mhaList as $k => $v) {
+                  $fildTypes['mha:' . $k] = $v;
+                }
+                $fildTypes = json_encode($fildTypes, JSON_UNESCAPED_UNICODE);
+
                 echo \shopack\base\frontend\widgets\fancytree\Fancytree::widget([
                   'id' => 'maintree', //$treeid
                   'data' => $list,
@@ -153,10 +181,22 @@ function(event, data) {
 	// console.log(event, data);
   $('#info-area-key').html(data.node.key);
   $('#info-area-title').html(data.node.title);
+
+  fildTypes = {$fildTypes};
+
+  if (data.node.data.DescFieldType) {
+    $('#info-area-descfieldtype').html(fildTypes[data.node.data.DescFieldType]);
+    $('#info-area-descfieldlabel').html(data.node.data.DescFieldLabel);
+  } else {
+    $('#info-area-descfieldtype').html('');
+    $('#info-area-descfieldlabel').html('');
+  }
   $('#info-area').show();
 
-  // $('#create-button').href('{$deleteUrl}/' + data.node.key);
   $('#create-button').attr('disabled', null);
+
+  // $('#update-button').attr('href', '{$updateUrl}?id=' + data.node.key);
+  $('#update-button').attr('disabled', null);
 
   $('#delete-button').attr('href', '{$deleteUrl}?id=' + data.node.key);
   $('#delete-button').removeClass('disabled');
@@ -196,12 +236,15 @@ JS;
               <div class='btn-toolbar' role='toolbar'>
                 <div class='btn-group btn-group-sm me-auto' role='group'>
 
-                  <button id='create-button' type='button' class='btn btn-outline-success' title='ایجاد' onclick="createItem()" disabled='disabled'><i class="indicator fas fa-plus"></i></button>
-
-                  <?= Html::createButton('<i class="indicator fas fa-tree"></i>', null, [
+                  <?= Html::createButton("<i class='indicator fas fa-tree'></i>", null, [
                     'class' => ['btn', 'btn-sm', 'btn-outline-primary'],
+                    'id' => 'create-root-button',
                     'title' => 'ایجاد سرشاخه',
                   ]) ?>
+
+                  <button id='create-button' type='button' class='btn btn-outline-success' title='ایجاد' onclick="createItem()" disabled='disabled'><i class="indicator fas fa-plus"></i></button>
+
+                  <button id='update-button' type='button' class='btn btn-outline-success' title='ویرایش' onclick="updateItem()" disabled='disabled'><i class="indicator fas fa-pen"></i></button>
 
                   <?= Html::deleteButton('<i class="indicator fas fa-trash"></i>', null, [
                     'class' => ['btn', 'btn-sm', 'btn-outline-danger'],
@@ -209,6 +252,7 @@ JS;
                     'disabled' => true,
                   ]) ?>
                 </div>
+                &nbsp;
                 <div class='btn-group btn-group-sm' role='group'>
                   <button type='button' class='btn btn-outline-primary' title='بالاتر'><i class="indicator fas fa-angle-double-up"></i></button>
                   <button type='button' class='btn btn-outline-primary' title='پایین تر'><i class="indicator fas fa-angle-double-down"></i></button>
@@ -220,16 +264,26 @@ JS;
           </div>
         </div>
         <div class='col-9'>
-          <table id='info-area' style='display: none' class='table table-bordered table-striped'>
-            <tr>
-              <td width='30%'>کد:</td>
-              <td id='info-area-key'></td>
-            </tr>
-            <tr>
-              <td>عنوان:</td>
-              <td id='info-area-title'></td>
-            </tr>
-          </table>
+          <div id='info-area' style='display: none'>
+            <table class='table table-bordered table-striped'>
+              <tr>
+                <td width='30%'>کد:</td>
+                <td id='info-area-key'></td>
+              </tr>
+              <tr>
+                <td>عنوان:</td>
+                <td id='info-area-title'></td>
+              </tr>
+              <tr>
+                <td>نوع فیلد توضیحات:</td>
+                <td id='info-area-descfieldtype'></td>
+              </tr>
+              <tr>
+                <td>عنوان فیلد توضیحات:</td>
+                <td id='info-area-descfieldlabel'></td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
