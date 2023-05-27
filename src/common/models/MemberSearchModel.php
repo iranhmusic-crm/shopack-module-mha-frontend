@@ -24,6 +24,16 @@ class MemberSearchModel extends MemberModel
 	public function extraRules()
 	{
 		return [
+			[['usrEmail',
+  			'usrMobile',
+	  		'usrSSID',
+				'usrGender',
+				'usrFirstName',
+				'usrFirstName_en',
+				'usrLastName',
+        'usrLastName_en',
+			], 'string'],
+
 			[[
 				'filter_mode',
 			], 'number'],
@@ -84,6 +94,17 @@ class MemberSearchModel extends MemberModel
 			// $query->where('0=1');
 			return $dataProvider;
 		}
+
+		$dataProvider->query
+			->andFilterWhere(['like', 'usrEmail', $this->usrEmail])
+			->andFilterWhere(['like', 'usrMobile', $this->usrMobile])
+			->andFilterWhere(['like', 'usrSSID', $this->usrSSID])
+			->andFilterWhere(['usrGender' => $this->usrGender])
+			->andFilterWhere(['like', 'usrFirstName', $this->usrFirstName])
+			->andFilterWhere(['like', 'usrFirstName_en', $this->usrFirstName_en])
+			->andFilterWhere(['like', 'usrLastName', $this->usrLastName])
+			->andFilterWhere(['like', 'usrLastName_en', $this->usrLastName_en])
+		;
 
 		$this->applySearchValuesInQuery($query);
 

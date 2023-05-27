@@ -55,14 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
           //     return Html::a(str_replace('\n', '<br>', $model->user->displayName()), ['/aaa/user/view', 'id' => $model->mbrUserID]);
           //   },
           // ],
-          [
-            'class' => \iranhmusic\shopack\mha\frontend\common\widgets\grid\MemberDataColumn::class,
-            'attribute' => 'mbrUserID',
-            'format' => 'raw',
-            'value' => function ($model, $key, $index, $widget) {
-              return Html::a($model->user->displayName(), ['/aaa/user/view', 'id' => $model->mbrUserID], ['class' => ['btn', 'btn-sm', 'btn-outline-secondary']]);
-            },
-          ],
+          // [
+          //   'class' => \iranhmusic\shopack\mha\frontend\common\widgets\grid\MemberDataColumn::class,
+          //   'attribute' => 'mbrUserID',
+          //   'format' => 'raw',
+          //   'value' => function ($model, $key, $index, $widget) {
+          //     return Html::a($model->user->displayName(), ['/aaa/user/view', 'id' => $model->mbrUserID], ['class' => ['btn', 'btn-sm', 'btn-outline-secondary']]);
+          //   },
+          // ],
           [
             'attribute' => 'mbrRegisterCode',
             'format' => 'raw',
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
               return Html::a($model->mbrRegisterCode ?? '[ندارد]', ['view', 'id' => $model->mbrUserID]);
             },
           ],
-          'mbrAcceptedAt:jalaliWithTime',
+          // 'mbrAcceptedAt:jalaliWithTime',
           [
             'attribute' => 'usrFirstName',
             'format' => 'raw',
